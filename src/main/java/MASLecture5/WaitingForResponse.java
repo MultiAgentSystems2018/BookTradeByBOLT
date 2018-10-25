@@ -66,7 +66,7 @@ public class WaitingForResponse extends Behaviour {
                 System.out.println("Winner is " + bestSeller);
                 Behaviour beh = new SendProposal(agent, getDataStore(), bestSeller, bestPrice);
                 agent.addBehaviour(beh);
-                agent.addBehaviour(new BehaviourKiller(agent, 5000, beh));
+                agent.addBehaviour(new BehaviourKiller(agent,5000, beh));
             } else {
                 System.out.println(agent.getLocalName() + " Seller not found!");
                 agent.addBehaviour(new WakerBehaviour(agent, 5000) {

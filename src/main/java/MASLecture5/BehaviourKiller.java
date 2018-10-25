@@ -3,20 +3,24 @@ package MASLecture5;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.WakerBehaviour;
-//Дописать
+
 public class BehaviourKiller extends WakerBehaviour {
     private Agent agent;
     private Behaviour behaviourToKill;
+    private long timeout;
 
-    public BehaviourKiller(Agent a, long timeout, WaitingForResponse behaviourToKill){
-        super(a, timeout);
-        agent = a;
+    public BehaviourKiller(Agent agent, long timeout, Behaviour behaviourToKill) {
+        super(agent, timeout);
+        this.agent = agent;
+        this.timeout = timeout;
         this.behaviourToKill = behaviourToKill;
     }
+
+
     @Override
-    protected void onWake(){
+    protected void onWake() {
         super.onWake();
         agent.removeBehaviour(behaviourToKill);
-        System.out.println("I-ve removed the behaviour");
     }
+
 }
