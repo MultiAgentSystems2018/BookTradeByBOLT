@@ -56,6 +56,7 @@ public class WaitingForRequest extends Behaviour {
     }
     @Override
     public boolean done() {
+
         return msgArried;
     }
     @Override

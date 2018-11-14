@@ -14,11 +14,13 @@ public class Book {
         }
 
         public BookTitle getTitle() {
+
             return title;
         }
 
         public void setTitle(BookTitle title) {
-            this.title = title;
+
+            this.title= title;
         }
 
         public double getPrice() {

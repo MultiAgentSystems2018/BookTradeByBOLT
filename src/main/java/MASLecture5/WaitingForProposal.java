@@ -7,7 +7,6 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.proto.AchieveREResponder;
 
-//Дописать
 public class WaitingForProposal extends Behaviour {
 
     private Agent agent;
@@ -28,7 +27,7 @@ public class WaitingForProposal extends Behaviour {
         if (msg != null){
             done = true;
             if (msg.getPerformative() == ACLMessage.PROPOSE){
-
+                //дописать
             }
         }
     }

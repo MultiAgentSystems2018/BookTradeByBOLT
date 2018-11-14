@@ -12,17 +12,17 @@ import java.util.List;
 
 public class WaitingForResponse extends Behaviour {
 
-    private Agent agent;
-    private double bestPrice = 10000000;
-    private AID bestSeller = null;
-    private List<AID> receivers;
-    private int receiversCounter;
-    private boolean behaviourDone = false;
+            private Agent agent;
+            private double bestPrice = 10000000;
+            private AID bestSeller = null;
+            private List<AID> receivers;
+            private int receiversCounter;
+            private boolean behaviourDone = false;
 
     public WaitingForResponse (Agent agent, DataStore ds){
-        super();
-        this.agent = agent;
-        setDataStore(ds);
+                super();
+                this.agent = agent;
+                setDataStore(ds);
         this.receivers = (List<AID>) ds.get("receiversList");
         receiversCounter = receivers.size();
     }
@@ -57,6 +57,7 @@ public class WaitingForResponse extends Behaviour {
 
     @Override
     public boolean done() {
+
         return behaviourDone;
     }
 
@@ -64,9 +65,9 @@ public class WaitingForResponse extends Behaviour {
     public int onEnd() {
             if (behaviourDone && bestSeller != null) {
                 System.out.println("Winner is " + bestSeller);
-                Behaviour beh = new SendProposal(agent, getDataStore(), bestSeller, bestPrice);
-                agent.addBehaviour(beh);
-                agent.addBehaviour(new BehaviourKiller(agent,5000, beh));
+                Behaviour behaviour = new SendProposal(agent, getDataStore(), bestSeller, bestPrice);
+                agent.addBehaviour(behaviour);
+                agent.addBehaviour(new BehaviourKiller(agent,5000, behaviour));
             } else {
                 System.out.println(agent.getLocalName() + " Seller not found!");
                 agent.addBehaviour(new WakerBehaviour(agent, 5000) {

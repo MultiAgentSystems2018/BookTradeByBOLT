@@ -40,7 +40,7 @@ public class StartOfBuying extends OneShotBehaviour {
 
         WaitingForResponse behaviourToKill = new WaitingForResponse(agent, getDataStore());
         agent.addBehaviour(behaviourToKill);
-//        agent.addBehaviour(new BehaviourToKill)
+        agent.addBehaviour(new BehaviourKiller(agent, 20000, behaviourToKill));
 
     }
 
