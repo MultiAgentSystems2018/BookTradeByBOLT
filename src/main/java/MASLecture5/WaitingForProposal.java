@@ -27,7 +27,18 @@ public class WaitingForProposal extends Behaviour {
         if (msg != null){
             done = true;
             if (msg.getPerformative() == ACLMessage.PROPOSE){
-                //дописать
+                ACLMessage accept = msg.createReply();
+                accept.setContent("Confirming trade from " + agent.getLocalName());
+                accept.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+                agent.send(accept);
+            }else if(msg.getPerformative() == ACLMessage.REFUSE){
+                ACLMessage refprop = msg.createReply();
+                refprop.setContent("Refusing trade from " + agent.getLocalName());
+                refprop.setPerformative(ACLMessage.REJECT_PROPOSAL);
+                agent.send(refprop);
+            }
+            else {
+                block();
             }
         }
     }
