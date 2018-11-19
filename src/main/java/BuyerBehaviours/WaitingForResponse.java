@@ -1,5 +1,6 @@
-package MASLecture5;
+package BuyerBehaviours;
 
+import ETC.BehaviourKiller;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
@@ -9,6 +10,8 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
 import java.util.List;
+
+import static ETC.Colours.*;
 
 public class WaitingForResponse extends Behaviour {
 
@@ -36,19 +39,23 @@ public class WaitingForResponse extends Behaviour {
 
         if (response != null) {
             receiversCounter--;
+            if (receiversCounter == 0) {
+                behaviourDone = true;
+            }
             if (response.getPerformative() == ACLMessage.INFORM) {
-                System.out.println(agent.getLocalName() + " I've received the price " + response.getContent());
+                System.out.println("Agent " + YELLOW + agent.getLocalName() + ZERO + " said:" +
+                        CYAN + "I've received the price " +
+                        response.getContent() + ZERO + " from " + BLUE + response.getSender().getLocalName() + ZERO);
                 double price = Double.parseDouble(response.getContent());
 
                 if (price < bestPrice) {
                     bestSeller = response.getSender();
                     bestPrice = price;
                 }
-                if (receiversCounter == 0) {
-                    behaviourDone = true;
-                }
             } else {
-                System.out.println(agent.getLocalName() + " I've received disconfirm");
+                System.out.println("Agent " + YELLOW + agent.getLocalName() + ZERO + " said:"
+                        + RED + "I've received disconfirm" + ZERO + " from " + BLUE +
+                        response.getSender().getLocalName() + ZERO);
             }
         } else {
             block();
@@ -57,19 +64,18 @@ public class WaitingForResponse extends Behaviour {
 
     @Override
     public boolean done() {
-
         return behaviourDone;
     }
 
     @Override
     public int onEnd() {
             if (behaviourDone && bestSeller != null) {
-                System.out.println("Winner is " + bestSeller);
+                System.out.println("Winner is " + BLUE + bestSeller.getLocalName() + ZERO);
                 Behaviour behaviour = new SendProposal(agent, getDataStore(), bestSeller, bestPrice);
                 agent.addBehaviour(behaviour);
                 agent.addBehaviour(new BehaviourKiller(agent,5000, behaviour));
             } else {
-                System.out.println(agent.getLocalName() + " Seller not found!");
+                System.out.println(RED  + " Seller " + agent.getLocalName() + "not found!" + ZERO);
                 agent.addBehaviour(new WakerBehaviour(agent, 5000) {
                     @Override
                     protected void onWake() {

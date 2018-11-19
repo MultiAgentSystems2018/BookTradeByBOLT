@@ -1,5 +1,8 @@
-package MASLecture5;
+package AgentsTypes;
 
+import BuyerBehaviours.StartOfBuying;
+import ETC.Book;
+import ETC.BookTitle;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.DataStore;
@@ -27,7 +30,7 @@ public class AgentBuyer  extends Agent {
         buyingBooks.add(new Book(BookTitle.WardN06));
 
         DataStore ds = new DataStore();
-        ds.put("booklist",buyingBooks);
+        ds.put("bookList",buyingBooks);
         addBehaviour(new StartOfBuying(this, ds));
     }
 

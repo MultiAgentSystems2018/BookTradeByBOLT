@@ -1,5 +1,7 @@
-package MASLecture5;
+package SellerBehaviours;
 
+import ETC.Book;
+import ETC.BookTitle;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
@@ -7,6 +9,8 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
 import java.util.List;
+
+import static ETC.Colours.*;
 
 public class WaitingForRequest extends Behaviour {
 
@@ -18,7 +22,7 @@ public class WaitingForRequest extends Behaviour {
         super();
         setDataStore(ds);
         this.agent = agent;
-        bookList = (List<Book>) getDataStore().get("booklist");
+        bookList = (List<Book>) getDataStore().get("bookList");
 
     }
     @Override
@@ -41,10 +45,13 @@ public class WaitingForRequest extends Behaviour {
             if (offeredPrice > 0) {
                 answer.setContent(offeredPrice + "");
                 answer.setPerformative(ACLMessage.INFORM);
-                System.out.println(agent.getLocalName() + " I have this book" + offeredPrice);
+                System.out.println("Agent " + BLUE + agent.getLocalName() + ZERO +
+                        " said:" + GREEN + "I have this book, the price is " + offeredPrice + ZERO);
+
             }
             else{
-                System.out.println(agent.getLocalName() + " I don't have this book");
+                System.out.println("Agent " + BLUE + agent.getLocalName() + ZERO +  " said:" + RED
+                        + "I don't have this book! " + ZERO);
                 answer.setPerformative(ACLMessage.CANCEL);
             }
             agent.send(answer);

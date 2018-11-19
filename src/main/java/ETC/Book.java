@@ -1,10 +1,11 @@
-package MASLecture5;
+package ETC;
 
 public class Book {
     public BookTitle title;
     public double price;
 
         public Book(BookTitle title) {
+
             this.setTitle(title);
         }
 

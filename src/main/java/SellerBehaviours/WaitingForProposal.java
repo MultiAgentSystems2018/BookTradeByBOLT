@@ -1,11 +1,13 @@
-package MASLecture5;
+package SellerBehaviours;
 
+import SellerBehaviours.WaitingForRequest;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.proto.AchieveREResponder;
+
+import static ETC.Colours.*;
 
 public class WaitingForProposal extends Behaviour {
 
@@ -28,14 +30,16 @@ public class WaitingForProposal extends Behaviour {
             done = true;
             if (msg.getPerformative() == ACLMessage.PROPOSE){
                 ACLMessage accept = msg.createReply();
-                accept.setContent("Confirming trade from " + agent.getLocalName());
+                System.out.println("Agent " + BLUE + agent.getLocalName() + ZERO + " said:" + GREEN +
+                        " Accepting trade from " + YELLOW + "Buyer" + ZERO);
                 accept.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
                 agent.send(accept);
             }else if(msg.getPerformative() == ACLMessage.REFUSE){
-                ACLMessage refprop = msg.createReply();
-                refprop.setContent("Refusing trade from " + agent.getLocalName());
-                refprop.setPerformative(ACLMessage.REJECT_PROPOSAL);
-                agent.send(refprop);
+                ACLMessage ref = msg.createReply();
+                System.out.println("Agent " + BLUE + agent.getLocalName() + ZERO + " said:" + RED +
+                        " Refusing trade from " + YELLOW + "Buyer" + ZERO);
+                ref.setPerformative(ACLMessage.REJECT_PROPOSAL);
+                agent.send(ref);
             }
             else {
                 block();
@@ -44,7 +48,11 @@ public class WaitingForProposal extends Behaviour {
     }
     @Override
     public boolean done() {
-
-        return false;
+        return done;
+    }
+    @Override
+    public int onEnd() {
+        agent.addBehaviour(new WaitingForRequest(agent, getDataStore()));
+        return super.onEnd();
     }
 }

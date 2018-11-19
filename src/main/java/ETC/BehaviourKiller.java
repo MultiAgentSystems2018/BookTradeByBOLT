@@ -1,4 +1,4 @@
-package MASLecture5;
+package ETC;
 
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;

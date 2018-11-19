@@ -1,5 +1,6 @@
-package MASLecture5;
+package ETC;
 
 public enum BookTitle {
     WarAndPeace, CrimeAndPunishment, WardN06, TheTaleofGoldenChicken
 }
+

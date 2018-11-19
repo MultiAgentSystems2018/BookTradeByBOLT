@@ -1,20 +1,20 @@
-package MASLecture5;
+package BuyerBehaviours;
 
-import jade.Boot;
+import ETC.Book;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.proto.AchieveREResponder;
 
 import java.util.List;
+
+import static ETC.Colours.*;
 
 
 public class SendProposal extends Behaviour {
     private Agent agent;
-    private boolean done = false;
     private AID bestSeller;
     private double bestPrice;
     private List<Book> bookList;
@@ -36,7 +36,6 @@ public class SendProposal extends Behaviour {
         propasal.setProtocol("tradeConfirm");
         agent.send(propasal);
         bookList = (List<Book>) getDataStore().get("bookList");
-
         receiversList = (List<AID>) getDataStore().get("receiversList");
         ACLMessage refuse = new ACLMessage(ACLMessage.REFUSE);
         refuse.setProtocol("tradeConfirm");
@@ -61,10 +60,12 @@ public class SendProposal extends Behaviour {
         if (answer != null) {
             answerReceived = true;
             if (answer.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
-                System.out.println(agent.getLocalName() + "I've got a confirm, i've bought a book for" + bestPrice);
+                System.out.println("Agent " + YELLOW + agent.getLocalName() + ZERO +
+                        " said:" + GREEN + "I've got a confirm, i've bought a book for " + bestPrice + ZERO);
                 bookList.remove(0);
             } else {
-                System.out.println(agent.getLocalName() + "I've got a disconfirm, i have to try again!");
+                System.out.println("Agent " + YELLOW + agent.getLocalName() + ZERO +
+                        " said:"  + RED +"I've got a disconfirm, i have to try again!" + ZERO);
                 Book book = bookList.get(0);
                 bookList.remove(0);
                 bookList.add(book);
@@ -77,16 +78,20 @@ public class SendProposal extends Behaviour {
 
     @Override
     public boolean done() {
+
         return answerReceived;
     }
 
     @Override
     public int onEnd() {
         if (bookList.size() == 0){
-            System.out.println(agent.getLocalName() + "I've finished a bookbuying!");
+            System.out.println("Agent " + YELLOW + agent.getLocalName() + ZERO +  " said:" +
+                    GREEN + "I've finished a bookbuying!");
         }
         else {
-            System.out.println(agent.getLocalName() + "There is still books in my list of purchase");
+            System.out.println("Agent " + YELLOW + agent.getLocalName() + ZERO +
+                    " said:" + CYAN + "There is still books in my list of purchase" + ZERO);
+            System.out.println("----------------------------------------------------");
             agent.addBehaviour(new StartOfBuying(agent, getDataStore()));
         }
        return super.onEnd();
