@@ -25,9 +25,11 @@ public class AgentBuyer  extends Agent {
             e.printStackTrace();
         }
         buyingBooks = new ArrayList<Book>();
+        buyingBooks.add(new Book(BookTitle.WardN06));
         buyingBooks.add(new Book(BookTitle.CrimeAndPunishment));
         buyingBooks.add(new Book(BookTitle.WarAndPeace));
-        buyingBooks.add(new Book(BookTitle.WardN06));
+        buyingBooks.add(new Book(BookTitle.TheTaleofGoldenChicken));
+
 
         DataStore ds = new DataStore();
         ds.put("bookList",buyingBooks);

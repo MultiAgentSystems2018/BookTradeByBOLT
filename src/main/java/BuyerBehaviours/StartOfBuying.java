@@ -32,13 +32,13 @@ public class StartOfBuying extends OneShotBehaviour {
         request.setContent(bookList.get(0).getTitle()+"");
         System.out.println( "Agent " + YELLOW + agent.getLocalName() + ZERO + " said: I've sent a request for " +
                 PURPLE + bookList.get(0).getTitle() + ZERO);
-        List<AID> reseivers = new ArrayList<AID>();
-        reseivers.add(new AID("Seller1", false));
-        reseivers.add(new AID("Seller2", false));
-        reseivers.add(new AID("Seller3", false));
+        List<AID> receivers = new ArrayList<AID>();
+        receivers.add(new AID("Seller1", false));
+        receivers.add(new AID("Seller2", false));
+        receivers.add(new AID("Seller3", false));
 
-        getDataStore().put("receiversList", reseivers);
-        for (AID rec: reseivers){
+        getDataStore().put("receiversList", receivers);
+        for (AID rec: receivers){
             request.addReceiver(rec);
         }
         request.setProtocol("bookBuying");
@@ -46,7 +46,7 @@ public class StartOfBuying extends OneShotBehaviour {
 
         WaitingForResponse behaviourToKill = new WaitingForResponse(agent, getDataStore());
         agent.addBehaviour(behaviourToKill);
-        agent.addBehaviour(new BehaviourKiller(agent, 5000, behaviourToKill));
+        agent.addBehaviour(new BehaviourKiller(agent, 1000, behaviourToKill));
 
     }
 

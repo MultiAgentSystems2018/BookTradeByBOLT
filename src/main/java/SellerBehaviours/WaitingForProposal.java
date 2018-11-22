@@ -1,5 +1,6 @@
 package SellerBehaviours;
 
+import ETC.BehaviourKiller;
 import SellerBehaviours.WaitingForRequest;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
@@ -22,9 +23,10 @@ public class WaitingForProposal extends Behaviour {
 
     @Override
     public void action() {
-        MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchProtocol("tradeConfirm"),
-                MessageTemplate.or(MessageTemplate.MatchPerformative(ACLMessage.PROPOSE),
-                        MessageTemplate.MatchPerformative(ACLMessage.REFUSE)));
+
+        MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchProtocol("trade"), MessageTemplate.or(
+                MessageTemplate.MatchPerformative(ACLMessage.PROPOSE),
+                MessageTemplate.MatchPerformative(ACLMessage.REFUSE)));
         ACLMessage msg = agent.receive(mt);
         if (msg != null){
             done = true;
@@ -52,7 +54,10 @@ public class WaitingForProposal extends Behaviour {
     }
     @Override
     public int onEnd() {
-        agent.addBehaviour(new WaitingForRequest(agent, getDataStore()));
+        WaitingForRequest behaviour = new WaitingForRequest(agent, getDataStore());
+        agent.addBehaviour(behaviour);
+        agent.addBehaviour(new BehaviourKiller(agent, 2000, behaviour));
+        //  agent.addBehaviour(new WaitingForRequest(agent, getDataStore()));
         return super.onEnd();
     }
 }

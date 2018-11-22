@@ -1,5 +1,6 @@
 package AgentsTypes;
 
+import ETC.BehaviourKiller;
 import ETC.Book;
 import ETC.BookTitle;
 import SellerBehaviours.WaitingForRequest;
@@ -22,13 +23,15 @@ public class AgentSeller extends Agent {
         createSettingForSeller(bookList);
         DataStore ds = new DataStore();
         ds.put("bookList", bookList);
-        addBehaviour(new WaitingForRequest(this, ds));
+        WaitingForRequest behaviour = new WaitingForRequest(this, ds);
+        addBehaviour(behaviour);
+        addBehaviour(new BehaviourKiller(this, 5000, behaviour));
     }
 
     private void createSettingForSeller (List<Book>  bookList) {
         if (this.getLocalName().equals("Seller1")){
+            bookList.add(new Book(BookTitle.WardN06, 130));
             bookList.add(new Book(BookTitle.CrimeAndPunishment,290));
-            bookList.add(new Book(BookTitle.WarAndPeace, 1260));
         }
         else if (this.getLocalName().equals("Seller2")){
             bookList.add(new Book(BookTitle.CrimeAndPunishment, 285));
@@ -37,6 +40,7 @@ public class AgentSeller extends Agent {
         }
         else if (this.getLocalName().equals("Seller3")){
             bookList.add(new Book(BookTitle.WardN06, 150));
+            bookList.add(new Book(BookTitle.WarAndPeace, 1260));
         }
         else{
             System.err.println(RED + "Danger! Wrong Agent name: " + this.getLocalName() + ZERO);

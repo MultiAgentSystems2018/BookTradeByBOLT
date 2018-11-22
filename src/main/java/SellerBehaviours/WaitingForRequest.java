@@ -1,5 +1,6 @@
 package SellerBehaviours;
 
+import ETC.BehaviourKiller;
 import ETC.Book;
 import ETC.BookTitle;
 import jade.core.Agent;
@@ -54,6 +55,7 @@ public class WaitingForRequest extends Behaviour {
                         + "I don't have this book! " + ZERO);
                 answer.setPerformative(ACLMessage.CANCEL);
             }
+            System.out.println(agent.getLocalName() + offeredPrice);
             agent.send(answer);
         }
         else{
@@ -68,7 +70,10 @@ public class WaitingForRequest extends Behaviour {
     }
     @Override
     public int onEnd(){
-        agent.addBehaviour(new WaitingForProposal(agent, getDataStore()));
+        WaitingForProposal behaviour = new WaitingForProposal(agent, getDataStore());
+        agent.addBehaviour(behaviour);
+        agent.addBehaviour(new BehaviourKiller(agent, 5000, behaviour));
+//        agent.addBehaviour(new WaitingForProposal(agent, getDataStore()));
         return super.onEnd();
     }
 }
