@@ -55,7 +55,6 @@ public class WaitingForRequest extends Behaviour {
                         + "I don't have this book! " + ZERO);
                 answer.setPerformative(ACLMessage.CANCEL);
             }
-            System.out.println(agent.getLocalName() + offeredPrice);
             agent.send(answer);
         }
         else{

@@ -40,14 +40,12 @@ public class SendProposal extends Behaviour {
         proposal.addReceiver(bestSeller);
         proposal.setContent(bestPrice+"");
         proposal.setProtocol("trade");
-        System.out.println(bestSeller.getLocalName()+ "  proposed");
         agent.send(proposal);
         ACLMessage refuse = new ACLMessage(ACLMessage.REFUSE);
         refuse.setProtocol("trade");
         for (AID rec: receiversList){
 //            if (rec!=bestSeller){
             if (!rec.equals(bestSeller)){
-                System.out.println(rec.getLocalName() + "   refused");
                 refuse.addReceiver(rec);
             }
         }

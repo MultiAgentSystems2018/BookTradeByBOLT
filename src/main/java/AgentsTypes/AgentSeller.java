@@ -25,7 +25,7 @@ public class AgentSeller extends Agent {
         ds.put("bookList", bookList);
         WaitingForRequest behaviour = new WaitingForRequest(this, ds);
         addBehaviour(behaviour);
-        addBehaviour(new BehaviourKiller(this, 5000, behaviour));
+        addBehaviour(new BehaviourKiller(this, 15000, behaviour));
     }
 
     private void createSettingForSeller (List<Book>  bookList) {
@@ -43,8 +43,7 @@ public class AgentSeller extends Agent {
             bookList.add(new Book(BookTitle.WarAndPeace, 1260));
         }
         else{
-            System.err.println(RED + "Danger! Wrong Agent name: " + this.getLocalName() + ZERO);
+            System.err.println( "Danger! Wrong Agent name: " + this.getLocalName());
         }
-
     }
 }
